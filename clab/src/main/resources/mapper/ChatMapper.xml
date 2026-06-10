@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clab.chat.dao.ChatMapper">
+
+    <resultMap id="chatMap" type="com.clab.chat.dto.ChatDto">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="source" column="source"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+    <!-- 전체 조회 -->
+    <select id="findAll" resultMap="chatMap">
+        SELECT
+        	id,
+            user_id,
+            created_at,
+            updated_at,
+            source,
+            title,
+            content
+        FROM chat
+    </select>
+
+    <!-- 단건 조회 -->
+    <select id="findById"
+            parameterType="int"
+            resultMap="chatMap">
+        SELECT
+        	id,
+            user_id,
+            created_at,
+            updated_at,
+            source,
+            title,
+            content
+        FROM chat
+        WHERE id = #{id}
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insert" parameterType="com.clab.chat.dto.ChatDto">
+
+        INSERT INTO chat
+        (
+            user_id,
+            created_at,
+            updated_at,
+            source,
+            title,
+            content
+        )
+        VALUES
+        (
+            #{userId},
+            NOW(),
+            NOW(),
+            #{source},
+            #{title},
+            #{content}
+        )
+
+    </insert>
+
+    <!-- 수정 -->
+    <update id="update">
+
+        UPDATE chat
+        SET
+            user_id = #{dto.userId},
+            created_at = #{dto.createdAt},
+            updated_at = now(),
+            source = #{dto.source},
+            title = #{dto.title},
+            content = #{dto.content}
+        WHERE id = #{id}
+
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="delete" parameterType="int">
+
+        DELETE FROM chat
+        WHERE id = #{id}
+
+    </delete>
+
+</mapper>

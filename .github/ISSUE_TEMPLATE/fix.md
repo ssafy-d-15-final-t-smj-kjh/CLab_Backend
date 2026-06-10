@@ -2,7 +2,7 @@
 name: FIX
 about: 버그 수정 이슈 템플릿입니다.
 title: "[FIX]"
-labels: ''
+labels: BugFix
 assignees: ''
 
 ---

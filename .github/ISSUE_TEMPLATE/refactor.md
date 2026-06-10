@@ -2,7 +2,7 @@
 name: REFACTOR
 about: 리팩토링 이슈 템플릿입니다.
 title: "\U0001F528 [REFACTOR] "
-labels: ''
+labels: Refactor
 assignees: ''
 
 ---

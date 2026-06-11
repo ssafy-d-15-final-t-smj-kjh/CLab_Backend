@@ -12,11 +12,15 @@ public interface MemberMapper {
 	List<MemberDto> findAll();
 
 	MemberDto findById(int id);
+	
+	MemberDto findByEmail(String email);
 
 	void insert(MemberDto dto);
 
-	void update(MemberDto dto);
+	void update(int id, MemberDto dto);
 
+	void updateRefreshToken(int id, String refreshToken);
+	
 	void delete(int id);
 
 }

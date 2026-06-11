@@ -14,10 +14,10 @@ public interface ChatMapper {
 
 	ChatDto findById(int id);
 
-	void insert(ChatDto dto);
+	int insert(ChatDto dto);
 
-	void update(@Param("id") int id, @Param("dto") ChatDto dto);
+	int update(@Param("id") int id, @Param("dto") ChatDto dto);
 
-	void delete(int id);
+	int delete(int id);
 
 }

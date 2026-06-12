@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <id property="userId" column="user_id"/>
         <result property="id" column="id"/>
         <result property="password" column="password"/>
+        <result property="username" column="username"/>
         <result property="email" column="email"/>
         <result property="image" column="image"/>
     </resultMap>
@@ -19,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             user_id,
             id,
             password,
+            username,
             email,
             image
         FROM member
@@ -32,10 +34,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             user_id,
             id,
             password,
+            username,
             email,
             image
         FROM member
         WHERE user_id = #{id}
+    </select>
+    
+    <select id="findByEmail" 
+    		parameterType="String"
+    		resultMap="memberMap">
+        SELECT
+            user_id,
+            id,
+            password,
+            username,
+            email,
+            image
+        FROM member
+        WHERE email = #{email}
+    </select>
+    
+    <select id="findRefreshTokenByEmail" 
+    		parameterType="String"
+    		resultType="String">
+    	SELECT
+    		refresh_token
+    	FROM member
+    	WHERE email = #{email}
     </select>
 
     <!-- 등록 -->
@@ -45,6 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         (
             id,
             password,
+            username,
             email,
             image
         )
@@ -52,6 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         (
             #{id},
             #{password},
+            #{username},
             #{email},
             #{image}
         )
@@ -59,18 +87,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <!-- 수정 -->
-    <update id="update" parameterType="com.clab.member.dto.MemberDto">
-
+    <update id="update">
         UPDATE member
         SET
-            id = #{id},
-            password = #{password},
-            email = #{email},
-            image = #{image}
-        WHERE user_id = #{userId}
-
+            id = #{dto.id},
+            password = #{dto.password},
+            email = #{dto.email},
+            username = #{dto.username},
+            image = #{dto.image}
+        WHERE user_id = #{id}
     </update>
 
+    <update id="updateRefreshToken">
+        UPDATE member
+        SET
+			refresh_token = #{refreshToken}
+        WHERE user_id = #{id}
+    </update>
+    
     <!-- 삭제 -->
     <delete id="delete" parameterType="int">
 

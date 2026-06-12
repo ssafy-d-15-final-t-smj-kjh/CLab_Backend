@@ -11,7 +11,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,9 +30,13 @@ public class SecurityExceptionHandlingFilter extends OncePerRequestFilter {
 		try {
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			if (e instanceof JwtException) {
+			if (e instanceof ExpiredJwtException) {
+				log.debug("JWT 만료 예외 발생: {}, {}", request.getRequestURI(), e);
+				setErrorResponse(response, HttpStatus.UNAUTHORIZED, "TOKEN_EXPIRED");
+			}
+			else if (e instanceof JwtException) {
 				log.debug("JWT 예외 발생: {}, {}", request.getRequestURI(), e);
-				setErrorResponse(response, HttpStatus.UNAUTHORIZED, "TOKEN_ERROR");
+				setErrorResponse(response, HttpStatus.UNAUTHORIZED, "TOKEN_INVALID");
 			} else if (e instanceof BadCredentialsException) {
 				setErrorResponse(response, HttpStatus.UNAUTHORIZED, e.getMessage());
 			} else {

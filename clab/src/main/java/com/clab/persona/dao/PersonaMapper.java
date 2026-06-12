@@ -13,10 +13,10 @@ public interface PersonaMapper {
 
 	PersonaDto findById(int id);
 
-	void insert(PersonaDto dto);
+	int insert(PersonaDto dto);
 
-	void update(int id, PersonaDto dto);
+	int update(int id, PersonaDto dto);
 
-	void delete(int id);
+	int delete(int id);
 
 }

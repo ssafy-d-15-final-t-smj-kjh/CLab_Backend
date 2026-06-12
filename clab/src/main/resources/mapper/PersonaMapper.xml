@@ -36,7 +36,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!-- 등록 -->
-    <insert id="insert" parameterType="com.clab.persona.dto.PersonaDto">
+    <insert id="insert"
+        parameterType="com.clab.persona.dto.PersonaDto"
+        useGeneratedKeys="true"
+        keyProperty="id">
 
         INSERT INTO persona
         (

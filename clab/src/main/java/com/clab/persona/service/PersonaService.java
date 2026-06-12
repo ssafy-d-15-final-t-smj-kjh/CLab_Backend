@@ -10,7 +10,7 @@ public interface PersonaService {
 
 	PersonaDto findById(int id);
 
-	void insert(PersonaDto dto);
+	int insert(PersonaDto dto);
 
 	void update(int id, PersonaDto dto);
 

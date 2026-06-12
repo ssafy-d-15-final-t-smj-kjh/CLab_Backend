@@ -1,8 +1,6 @@
 package com.clab.member.controller;
 
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,13 +8,15 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.clab.common.exception.ApiResponse;
+import com.clab.common.exception.SuccessCode;
 import com.clab.member.dto.MemberDto;
 import com.clab.member.service.MemberService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -25,42 +25,46 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/member")
 @Tag(name = "MemberController", description = "회원 관리 API")
 public class MemberController {
-	
+
 	private final MemberService memberService;
-	
+
 	@GetMapping
-	public List<MemberDto> findAll() {
-		return memberService.findAll();
+	@Operation(summary = "전체 사용자 조회")
+	public ResponseEntity<ApiResponse> findAll() {
+		List<MemberDto> result = memberService.findAll();
+		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
+		return ResponseEntity.status(response.getStatus()).body(response);
 	}
-	
+
 	@GetMapping("/{id}")
-	public MemberDto findById(int id) {
-		return memberService.findById(id);
+	@Operation(summary = "단일 사용자 조회")
+	public ResponseEntity<ApiResponse> findById(int id) {
+		MemberDto result = memberService.findById(id);
+		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
+		return ResponseEntity.status(response.getStatus()).body(response);
 	}
-	
+
 	@PostMapping("/join")
-	public void join(@RequestBody MemberDto dto) {
+	@Operation(summary = "회원가입")
+	public ResponseEntity<ApiResponse> join(@RequestBody MemberDto dto) {
 		memberService.insert(dto);
+		ApiResponse response = new ApiResponse(SuccessCode.INSERT_SUCCESS, "회원가입에 성공하였습니다.");
+		return ResponseEntity.status(response.getStatus()).body(response);
 	}
-	
-	@PostMapping("/refresh")
-	public ResponseEntity<Map<String, String>> refresh(@RequestHeader("Refresh-Token") String refreshToken) {
-		String accessToken = memberService.refresh(refreshToken);
-		return ResponseEntity.ok(Map.of("accessToken", accessToken));
-	}
-	
-	@PostMapping("/logout")
-	public void logout(@RequestHeader("Refresh-Token") String refreshToken) {
-		memberService.logout(refreshToken);
-	}
-	
+
 	@PatchMapping("/{id}")
-	public void update(@PathVariable("id") int id, @RequestBody MemberDto dto) {
+	@Operation(summary = "사용자 정보 수정")
+	public ResponseEntity<ApiResponse> update(@PathVariable("id") int id, @RequestBody MemberDto dto) {
 		memberService.update(id, dto);
+		ApiResponse response = new ApiResponse(SuccessCode.UPDATE_SUCCESS, "사용자 정보가 수정 되었습니다.");
+		return ResponseEntity.status(response.getStatus()).body(response);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable("id") int id) {
+	@Operation(summary = "사용자 정보 삭제")
+	public ResponseEntity<ApiResponse> delete(@PathVariable("id") int id) {
 		memberService.delete(id);
+		ApiResponse response = new ApiResponse(SuccessCode.UPDATE_SUCCESS, "사용자 정보가 삭제 되었습니다.");
+		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 }

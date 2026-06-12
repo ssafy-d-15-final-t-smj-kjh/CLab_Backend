@@ -9,8 +9,5 @@ public interface MemberService {
 	MemberDto findById(int id);
 	void insert(MemberDto dto);
 	void update(int id, MemberDto dto);
-	void updateRefreshToken(int id, String refreshToken);
-	String refresh(String refreshToken);
-	void logout(String refreshToken);
 	void delete(int id);
 }

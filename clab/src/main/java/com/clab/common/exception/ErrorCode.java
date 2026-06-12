@@ -38,8 +38,14 @@ public enum ErrorCode implements BaseCode {
 	// Content-Category Error --- END
 	
 	// Member Error --- BEGIN
-	
+	MEMBER_NOT_FOUND(404,"MEM-001", "사용자를 조회할 수 없습니다."),
+	MEMBER_DUPLICATED(409, "MEM-002", "이미 존재하는 사용자입니다."),
+	MEMBER_BAD_REQUEST(400,"MEM-003", "잘못된 접근입니다. DB에 수정이 발생하지 않았습니다."),
 	// Member Error --- END
+	
+	// Auth Error --- BEGIN
+	INVALID_CREDENTIALS(401, "ERR-AUTH-001", "아이디 또는 비밀번호를 잘못 입력했습니다.")
+	// Auth Error --- END
 	
 	// Participant Error --- BEGIN
 	

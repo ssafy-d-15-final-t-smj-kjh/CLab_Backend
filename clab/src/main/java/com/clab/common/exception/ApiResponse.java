@@ -12,10 +12,10 @@ public class ApiResponse<T> {
     private String message;
     private T data;
     
-    public ApiResponse(SuccessCode sc, T data) {
-    	this.status = sc.getStatus();
-    	this.code = sc.getCode();
-    	this.message = sc.getMessage();
+    public ApiResponse(BaseCode c, T data) {
+    	this.status = c.getStatus();
+    	this.code = c.getCode();
+    	this.message = c.getMessage();
     	this.data = data;
     }
 }

@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(CustomException.class)
-    public ResponseEntity<ErrorResponse> handleCustomException(
+    public ResponseEntity<ApiResponse> handleCustomException(
             CustomException exception) {
 
         return ResponseEntity
                 .status(exception.getErrorCode().getStatus())
-                .body(new ErrorResponse(exception.getErrorCode(), null));
+                .body(new ApiResponse(exception.getErrorCode(), null));
     }
 
 }

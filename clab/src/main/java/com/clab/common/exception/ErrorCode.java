@@ -5,14 +5,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ErrorCode {
-	/**
-	 * ******************************* Global Error CodeList
-	 * *************************************** HTTP Status Code 400 : Bad Request
-	 * 401 : Unauthorized 403 : Forbidden 404 : Not Found 500 : Internal Server
-	 * Error
-	 * *********************************************************************************************
-	 */
+public enum ErrorCode implements BaseCode {
+	// Common Error --- BEGIN
 	// 잘못된 서버 요청
 	BAD_REQUEST_ERROR(400, "G-001", "Bad Request Exception"),
 
@@ -51,12 +45,8 @@ public enum ErrorCode {
 
 	// 서버가 처리 할 방법을 모르는 경우 발생
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception"),
+	// Common Error --- END
 
-	/**
-	 * ******************************* Custom Error CodeList
-	 * ***************************************
-	 */
-	
 	
 	// Chat Error --- BEGIN
 	CHAT_NOT_FOUND(404, "CHAT-001", "대화를 조회할 수 없습니다."),

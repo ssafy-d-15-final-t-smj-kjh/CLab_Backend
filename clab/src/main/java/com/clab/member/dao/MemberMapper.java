@@ -17,13 +17,12 @@ public interface MemberMapper {
 
 	String findRefreshTokenByEmail(String email);
 
-	void insert(MemberDto dto);
+	int insert(MemberDto dto);
 
-	void update(int id, MemberDto dto);
+	int update(int id, MemberDto dto);
 
 	void updateRefreshToken(int id, String refreshToken);
 	
-	
-	void delete(int id);
+	int delete(int id);
 
 }

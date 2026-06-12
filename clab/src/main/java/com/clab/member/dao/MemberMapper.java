@@ -15,11 +15,14 @@ public interface MemberMapper {
 	
 	MemberDto findByEmail(String email);
 
+	String findRefreshTokenByEmail(String email);
+
 	void insert(MemberDto dto);
 
 	void update(int id, MemberDto dto);
 
 	void updateRefreshToken(int id, String refreshToken);
+	
 	
 	void delete(int id);
 

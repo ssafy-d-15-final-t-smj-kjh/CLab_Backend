@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 			return;
 		}
 		String encodedPassword = passwordEncoder.encode(dto.getPassword());
-		MemberDto member = new MemberDto(null, dto.getId(), encodedPassword, dto.getUsername(), dto.getEmail(), dto.getImage(), null);
+		MemberDto member = new MemberDto(null, dto.getId(), encodedPassword, dto.getUsername(), dto.getEmail(), dto.getImage());
 		mapper.insert(member);
 	}
 
@@ -62,7 +62,8 @@ public class MemberServiceImpl implements MemberService {
 			throw new UsernameNotFoundException("존재하지 않는 사용자입니다.");
 		}
 
-		if (!refreshToken.equals(member.getRefreshToken())) {
+		String storedRefreshToken = mapper.findRefreshTokenByEmail(email);
+		if (!refreshToken.equals(storedRefreshToken)) {
 			throw new BadCredentialsException("유효하지 않은 Refresh Token입니다.");
 		}
 
@@ -79,7 +80,8 @@ public class MemberServiceImpl implements MemberService {
 			throw new UsernameNotFoundException("존재하지 않는 사용자입니다.");
 		}
 
-		if (!refreshToken.equals(member.getRefreshToken())) {
+		String storedRefreshToken = mapper.findRefreshTokenByEmail(email);
+		if (!refreshToken.equals(storedRefreshToken)) {
 			throw new BadCredentialsException("유효하지 않은 Refresh Token입니다.");
 		}
 		

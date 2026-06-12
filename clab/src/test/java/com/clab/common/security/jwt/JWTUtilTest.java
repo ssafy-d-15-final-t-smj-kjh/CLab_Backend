@@ -25,7 +25,7 @@ public class JWTUtilTest {
     @Test
     void 토큰_생성테스트() {
         // given
-        MemberDto member = new MemberDto(1,"admin","1234","admin","admin@ssafy.com","/",null);
+        MemberDto member = new MemberDto(1,"admin","1234","admin","admin@ssafy.com","/");
 
         // when
         int expireMin = 1;
@@ -38,7 +38,7 @@ public class JWTUtilTest {
     @Test
     void claim_확인테스트() {
         // given
-        MemberDto member = new MemberDto(1,"admin","1234","admin","admin@ssafy.com","/",null);
+        MemberDto member = new MemberDto(1,"admin","1234","admin","admin@ssafy.com","/");
 
         int expireMin = 1;
         String token = util.create("accessToken", expireMin, Map.of("email", member.getEmail()));
@@ -52,7 +52,7 @@ public class JWTUtilTest {
     @Test
     void 유효기간이_지난_토큰_예외_확인() {
         // given
-        MemberDto member = new MemberDto(1,"admin","1234","admin","admin@ssafy.com","/",null);
+        MemberDto member = new MemberDto(1,"admin","1234","admin","admin@ssafy.com","/");
 
         int expireMin = -1; // 지난 시간으로 토큰 생성
         String token = util.create("accessToken", expireMin, Map.of("email", member.getEmail()));

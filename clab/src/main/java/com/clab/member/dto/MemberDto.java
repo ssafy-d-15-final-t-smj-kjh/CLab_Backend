@@ -12,5 +12,4 @@ public class MemberDto {
 	private String username;
 	private String email;
 	private String image;
-	private String refreshToken;
 }

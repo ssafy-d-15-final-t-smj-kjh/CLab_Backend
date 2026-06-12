@@ -10,7 +10,7 @@ public interface CategoryService {
 
 	CategoryDto findById(int id);
 
-	void insert(CategoryDto dto);
+	int insert(CategoryDto dto);
 
 	void update(int id, CategoryDto dto);
 

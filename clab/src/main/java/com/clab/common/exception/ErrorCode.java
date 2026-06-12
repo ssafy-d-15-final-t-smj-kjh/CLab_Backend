@@ -22,7 +22,11 @@ public enum ErrorCode implements BaseCode {
 	// Chat Error --- END
 	
 	// Category Error --- BEGIN
-	
+	CATEGORY_NOT_FOUND(404, "CATE-001", "카테고리를 조회할 수 없습니다."),
+	CATEGORY_BAD_REQUEST(400, "CATE-002", "잘못된 접근입니다. 카테고리 DB에 적용이 되지 않았습니다."),
+	CATEGORY_INSERT_FAILED(400, "CATE-003", "카테고리 생성에 실패하였습니다."),
+	CATEGORY_UPDATE_FAILED(400, "CATE-004", "카테고리 수정에 실패하였습니다."),
+	CATEGORY_DELETE_FAILED(400, "CATE-005", "카테고리 삭제에 실패하였습니다."),
 	// Category Error --- END
 	
 	// Common Error --- BEGIN

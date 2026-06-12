@@ -20,3 +20,9 @@ logging:
   level:
     root: info
     com.clab: debug
+
+clab:
+  jwt:
+    access-expmin: 60
+    refresh-expmin: 1
+    secret-string: 4sP3z3euxNgx5GLCw5ExlwxpYB575myDQ3y27mtzYgblL7ofNzbd6Obz41zSQz4SFIG+rATcRUTKxRAXnMVexQ==

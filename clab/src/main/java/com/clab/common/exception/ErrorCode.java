@@ -44,7 +44,10 @@ public enum ErrorCode implements BaseCode {
 	// Member Error --- END
 	
 	// Auth Error --- BEGIN
-	INVALID_CREDENTIALS(401, "ERR-AUTH-001", "아이디 또는 비밀번호를 잘못 입력했습니다.")
+	INVALID_CREDENTIALS(401, "ERR-AUTH-001", "아이디 또는 비밀번호를 잘못 입력했습니다."),
+	TOKEN_EXPIRED(401, "ERR-AUTH-002", "토큰이 만료되었습니다."),
+	TOKEN_INVALID(401, "ERR-AUTH-003", "유효하지 않은 토큰입니다.")
+	
 	// Auth Error --- END
 	
 	// Participant Error --- BEGIN

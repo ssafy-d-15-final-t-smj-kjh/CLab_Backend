@@ -33,23 +33,23 @@ public class SecurityExceptionHandlingFilter extends OncePerRequestFilter {
 		} catch (Exception e) {
 			if (e instanceof ExpiredJwtException) {
 				log.debug("JWT 만료 예외 발생: {}, {}", request.getRequestURI(), e);
-				setErrorResponse(response, HttpStatus.UNAUTHORIZED, "TOKEN_EXPIRED");
+				setErrorResponse(response, ErrorCode.TOKEN_EXPIRED);
 			} else if (e instanceof JwtException) {
 				log.debug("JWT 예외 발생: {}, {}", request.getRequestURI(), e);
-				setErrorResponse(response, HttpStatus.UNAUTHORIZED, "TOKEN_INVALID");
+				setErrorResponse(response, ErrorCode.TOKEN_INVALID);
 			} else if (e instanceof BadCredentialsException) {
-				setErrorResponse(response, HttpStatus.UNAUTHORIZED, e.getMessage());
+				setErrorResponse(response, ErrorCode.UNAUTHORIZED);
 			} else {
-				setErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+				setErrorResponse(response, ErrorCode.INTERNAL_SERVER_ERROR);
 			}
 		}
 	}
 
-	private void setErrorResponse(HttpServletResponse response, HttpStatus status, String message) throws IOException {
-		log.debug("커스텀 필터에서 발생한 예외 처리: {}, {}", status, message);
+	private void setErrorResponse(HttpServletResponse response,ErrorCode errorCode) throws IOException {
+		log.debug("커스텀 필터에서 발생한 예외 처리: {}, {}", errorCode.getStatus(), errorCode.getMessage());
 
-        ApiResponse<?> apiResponse = new ApiResponse<>(ErrorCode.UNAUTHORIZED, message);
-        response.setStatus(status.value());
+        ApiResponse<?> apiResponse = new ApiResponse<>(errorCode, null);
+        response.setStatus(errorCode.getStatus());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8");
         ObjectMapper objectMapper = new ObjectMapper();
         response.getWriter().write(objectMapper.writeValueAsString(apiResponse));

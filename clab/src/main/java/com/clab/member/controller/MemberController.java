@@ -6,6 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,17 +30,25 @@ public class MemberController {
 
 	private final MemberService memberService;
 
-	@GetMapping("/list")
+	@GetMapping
 	@Operation(summary = "전체 사용자 조회")
 	public ResponseEntity<ApiResponse> findAll() {
 		List<MemberDto> result = memberService.findAll();
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
-
-	@GetMapping
+	
+	@GetMapping("/{id}")
 	@Operation(summary = "단일 사용자 조회")
-	public ResponseEntity<ApiResponse> findById(@AuthenticationPrincipal CustomUserDetails userDetails) {
+	public ResponseEntity<ApiResponse> findById(@PathVariable int id) {
+		MemberDto result = memberService.findById(id);
+		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
+		return ResponseEntity.status(response.getStatus()).body(response);
+	}
+
+	@GetMapping("/me")
+	@Operation(summary = "내 정보 조회")
+	public ResponseEntity<ApiResponse> findByMyId(@AuthenticationPrincipal CustomUserDetails userDetails) {
 		int id = userDetails.getMember().getId();
 		MemberDto result = memberService.findById(id);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
@@ -54,7 +63,7 @@ public class MemberController {
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 
-	@PatchMapping
+	@PatchMapping("/me")
 	@Operation(summary = "사용자 정보 수정")
 	public ResponseEntity<ApiResponse> update(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody MemberDto dto) {
 		int id = userDetails.getMember().getId();
@@ -63,7 +72,7 @@ public class MemberController {
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/me")
 	@Operation(summary = "사용자 정보 삭제")
 	public ResponseEntity<ApiResponse> delete(@AuthenticationPrincipal CustomUserDetails userDetails) {
 		int id = userDetails.getMember().getId();

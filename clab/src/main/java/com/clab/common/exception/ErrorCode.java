@@ -50,7 +50,7 @@ public enum ErrorCode implements BaseCode {
 	// Auth Error --- BEGIN
 	INVALID_CREDENTIALS(401, "ERR-AUTH-001", "아이디 또는 비밀번호를 잘못 입력했습니다."),
 	TOKEN_EXPIRED(401, "ERR-AUTH-002", "토큰이 만료되었습니다."),
-	TOKEN_INVALID(401, "ERR-AUTH-003", "유효하지 않은 토큰입니다.")
+	TOKEN_INVALID(401, "ERR-AUTH-003", "유효하지 않은 토큰입니다."),
 	
 	// Auth Error --- END
 	
@@ -67,7 +67,7 @@ public enum ErrorCode implements BaseCode {
 	PERSONA_BAD_REQUEST(400, "PERS-002", "잘못된 접근입니다. 인물상 DB에 적용되지 않았습니다."),
 	PERSONA_INSERT_FAILED(400, "PERS-003", "인물상 생성에 실패하였습니다."),
 	PERSONA_UPDATE_FAILED(400, "PERS-004", "인물상 수정에 실패하였습니다."),
-	PERSONA_DELETE_FAILED(400, "PERS-005", "인물상 삭제에 실패하였습니다."),
+	PERSONA_DELETE_FAILED(400, "PERS-005", "인물상 삭제에 실패하였습니다.")
 	// Persona Error --- END
 	
 	

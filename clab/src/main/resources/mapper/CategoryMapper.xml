@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clab.category.dao.CategoryMapper">
+
+    <resultMap id="categoryMap" type="com.clab.category.dto.CategoryDto">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="weight" column="weight"/>
+    </resultMap>
+
+    <!-- 전체 조회 -->
+    <select id="findAll" resultMap="categoryMap">
+        SELECT
+            id,
+            name,
+            description,
+            weight
+        FROM category
+    </select>
+
+    <!-- 단건 조회 -->
+    <select id="findById"
+            parameterType="int"
+            resultMap="categoryMap">
+        SELECT
+            id,
+            name,
+            description,
+            weight
+        FROM category
+        WHERE id = #{id}
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insert"
+	     parameterType="com.clab.category.dto.CategoryDto"
+	     useGeneratedKeys="true"
+	     keyProperty="id">
+
+        INSERT INTO category
+        (
+            name,
+            description,
+            weight
+        )
+        VALUES
+        (
+            #{name},
+            #{description},
+            #{weight}
+        )
+
+    </insert>
+
+    <!-- 수정 -->
+    <update id="update">
+
+        UPDATE category
+        SET
+            name = #{dto.name},
+            description = #{dto.description},
+            weight = #{dto.weight}
+        WHERE id = #{id}
+
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="delete" parameterType="int">
+
+        DELETE FROM category
+        WHERE id = #{id}
+
+    </delete>
+
+</mapper>

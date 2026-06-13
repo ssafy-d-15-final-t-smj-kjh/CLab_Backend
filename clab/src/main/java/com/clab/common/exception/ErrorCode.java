@@ -49,6 +49,13 @@ public enum ErrorCode implements BaseCode {
 	
 	// Participant-Category Error --- END
 	
+	// Persona Error --- BEGIN
+	PERSONA_NOT_FOUND(404, "PERS-001", "인물상을 조회할 수 없습니다."),
+	PERSONA_BAD_REQUEST(400, "PERS-002", "잘못된 접근입니다. 인물상 DB에 적용되지 않았습니다."),
+	PERSONA_INSERT_FAILED(400, "PERS-003", "인물상 생성에 실패하였습니다."),
+	PERSONA_UPDATE_FAILED(400, "PERS-004", "인물상 수정에 실패하였습니다."),
+	PERSONA_DELETE_FAILED(400, "PERS-005", "인물상 삭제에 실패하였습니다."),
+	// Persona Error --- END
 	
 	
 	; // End

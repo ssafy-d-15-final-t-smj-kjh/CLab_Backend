@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clab.persona.dao.PersonaMapper">
+
+    <resultMap id="personaMap" type="com.clab.persona.dto.PersonaDto">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="image" column="image"/>
+    </resultMap>
+
+    <!-- 전체 조회 -->
+    <select id="findAll" resultMap="personaMap">
+        SELECT
+        	id,
+       		name,
+       		description,
+       		image
+        FROM persona
+    </select>
+
+    <!-- 단건 조회 -->
+    <select id="findById"
+            parameterType="int"
+            resultMap="personaMap">
+        SELECT
+            id,
+       		name,
+       		description,
+       		image
+        FROM persona
+        WHERE id = #{id}
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insert"
+        parameterType="com.clab.persona.dto.PersonaDto"
+        useGeneratedKeys="true"
+        keyProperty="id">
+
+        INSERT INTO persona
+        (
+       		name,
+       		description,
+       		image
+        )
+        VALUES
+        (
+            #{name},
+            #{description},
+            #{image}
+        )
+
+    </insert>
+
+    <!-- 수정 -->
+    <update id="update">
+
+        UPDATE persona
+        SET
+            name = #{dto.name},
+            description = #{dto.description},
+            image = #{dto.image}
+        WHERE id = #{id}
+
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="delete" parameterType="int">
+
+        DELETE FROM persona
+        WHERE id = #{id}
+
+    </delete>
+
+</mapper>

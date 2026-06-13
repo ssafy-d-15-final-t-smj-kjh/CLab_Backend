@@ -6,10 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class MemberDto {
-	private Integer userId;
-	private String id;
+	private Integer id;
+	private String email;
 	private String password;
 	private String username;
-	private String email;
 	private String image;
 }

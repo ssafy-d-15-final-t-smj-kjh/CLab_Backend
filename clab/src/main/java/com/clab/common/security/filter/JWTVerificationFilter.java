@@ -22,24 +22,24 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class JWTVerificationFilter extends OncePerRequestFilter{
+public class JWTVerificationFilter extends OncePerRequestFilter {
 
 	private final JWTUtil jwtUtil;
 	private final CustomUserDetailService userDetailService;
-	
-	private String extractToken(HttpServletRequest request) {		
+
+	private String extractToken(HttpServletRequest request) {
 		String token = request.getHeader("Authorization");
-		if(token!=null && token.startsWith("Bearer ")) {
+		if (token != null && token.startsWith("Bearer ")) {
 			return token.substring(7);
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String token = extractToken(request);
-		if(token==null) {
+		if (token == null) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -49,6 +49,5 @@ public class JWTVerificationFilter extends OncePerRequestFilter{
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		filterChain.doFilter(request, response);
 	}
-	
 
 }

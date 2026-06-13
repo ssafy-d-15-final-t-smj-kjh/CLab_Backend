@@ -11,18 +11,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
-    @Bean
-    public OpenAPI openAPI() {
-        String schemeName = "Bearer Authentication";
+	@Bean
+	public OpenAPI openAPI() {
+		String schemeName = "Bearer Authentication";
 
-        return new OpenAPI()
-                .info(new Info().title("CLab API").version("1.0.0"))
-                .addSecurityItem(new SecurityRequirement().addList(schemeName))
-                .components(new Components()
-                        .addSecuritySchemes(schemeName, new SecurityScheme()
-                                .name(schemeName)
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")));
-    }
+		return new OpenAPI().info(new Info().title("CLab API").version("1.0.0"))
+				.addSecurityItem(new SecurityRequirement().addList(schemeName))
+				.components(new Components().addSecuritySchemes(schemeName, new SecurityScheme().name(schemeName)
+						.type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
+	}
 }

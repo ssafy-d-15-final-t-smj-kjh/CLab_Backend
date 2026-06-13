@@ -14,27 +14,23 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CustomUserDetails implements UserDetails{
-	
+public class CustomUserDetails implements UserDetails {
+
 	private final MemberDto member;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return Collections.emptyList();
 	}
 
 	@Override
 	public @Nullable String getPassword() {
-		// TODO Auto-generated method stub
 		return member.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return member.getEmail();
 	}
-	
 
 }

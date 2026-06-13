@@ -43,8 +43,7 @@ public class MemberServiceImpl implements MemberService {
 			throw new CustomException(ErrorCode.MEMBER_DUPLICATED);
 		}
 		String encodedPassword = passwordEncoder.encode(dto.getPassword());
-		MemberDto member = new MemberDto(null, dto.getId(), encodedPassword, dto.getUsername(), dto.getEmail(),
-				dto.getImage());
+		MemberDto member = new MemberDto(dto.getId(), dto.getEmail(), encodedPassword, dto.getUsername(), dto.getImage());
 
 		int changed = mapper.insert(member);
 		if (changed == 0) {

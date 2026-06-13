@@ -42,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
 		MemberDto member = details.getMember();
 		String accessToken = jwtUtil.createAccessToken(member);
 		String refreshToken = jwtUtil.createRefreshToken(member);
-		updateRefreshToken(member.getUserId(), refreshToken);
+		updateRefreshToken(member.getId(), refreshToken);
 		Map<String, String> tokens = new HashMap<>();
 		tokens.put("accessToken", accessToken);
 		tokens.put("refreshToken", refreshToken);
@@ -87,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
 			throw new BadCredentialsException("유효하지 않은 Refresh Token입니다.");
 		}
 
-		mapper.updateRefreshToken(member.getUserId(), null);
+		mapper.updateRefreshToken(member.getId(), null);
 	}
 
 }

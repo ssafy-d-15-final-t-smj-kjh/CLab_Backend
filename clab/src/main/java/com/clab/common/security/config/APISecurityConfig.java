@@ -48,7 +48,7 @@ public class APISecurityConfig {
 				.csrf(csrf -> csrf.disable());
 
 		http.authorizeHttpRequests(
-				auth -> auth.requestMatchers("/member/join", "/auth/refresh", "/auth/logout", "/auth/login").permitAll()
+				auth -> auth.requestMatchers("/member/join", "/auth/refresh", "/auth/login").permitAll()
 						.requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
 						.anyRequest().authenticated());
 		http.exceptionHandling(ex -> ex

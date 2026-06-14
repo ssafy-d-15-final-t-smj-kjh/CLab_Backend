@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clab.content.dao.ContentMapper">
+
+	<resultMap id="contentMap"
+		type="com.clab.content.dto.ContentDto">
+		<id property="id" column="id" />
+		<result property="participantId" column="participant_id" />
+		<result property="content" column="content" />
+		<result property="time" column="time" />
+	</resultMap>
+
+	<!-- 전체 조회 -->
+	<select id="findAll" resultMap="contentMap">
+		SELECT
+		id,
+		participant_id,
+		content,
+		time
+		FROM content
+	</select>
+
+	<!-- 단건 조회 -->
+	<select id="findById" parameterType="int" resultMap="contentMap">
+		SELECT
+		id,
+		participant_id,
+		content,
+		time
+		FROM content
+		WHERE id = #{id}
+	</select>
+
+	<select id="findByParticipantId" parameterType="int"
+		resultMap="contentMap">
+		SELECT
+		id,
+		participant_id,
+		content,
+		time
+		FROM content
+		WHERE
+		participant_id = #{participantId}
+	</select>
+
+	<!-- 등록 -->
+	<insert id="insert"
+		parameterType="com.clab.content.dto.ContentDto"
+		useGeneratedKeys="true" keyProperty="id">
+
+		INSERT INTO content
+		(
+		participant_id,
+		content,
+		time
+		)
+		VALUES
+		(
+		#{participantId},
+		#{content},
+		#{time}
+		)
+
+	</insert>
+
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+
+		DELETE FROM content
+		WHERE id =
+		#{id}
+
+	</delete>
+
+	<!-- 삭제 -->
+	<delete id="deleteByParticipantId" parameterType="int">
+
+		DELETE FROM
+		content
+		WHERE participant_id = #{participantId}
+
+	</delete>
+
+</mapper>

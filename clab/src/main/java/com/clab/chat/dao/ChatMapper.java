@@ -11,6 +11,8 @@ import com.clab.chat.dto.ChatDto;
 public interface ChatMapper {
 
 	List<ChatDto> findAll();
+	
+	List<ChatDto> findAllByUserId(int userId);
 
 	ChatDto findById(int id);
 

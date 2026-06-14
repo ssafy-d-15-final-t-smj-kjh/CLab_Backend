@@ -8,9 +8,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap id="chatMap" type="com.clab.chat.dto.ChatDto">
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
+        <result property="fileId" column="file_id"/>
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
-        <result property="source" column="source"/>
         <result property="title" column="title"/>
         <result property="content" column="content"/>
     </resultMap>
@@ -20,12 +20,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT
         	id,
             user_id,
+            file_id,
             created_at,
             updated_at,
-            source,
             title,
             content
         FROM chat
+    </select>
+    
+        <select id="findAllByUserId" 
+		        parameterType="int"
+        		resultMap="chatMap">
+        SELECT
+        	id,
+            user_id,
+            file_id,
+            created_at,
+            updated_at,
+            title,
+            content
+        FROM chat
+        WHERE user_id = #{userId}
     </select>
 
     <!-- 단건 조회 -->
@@ -35,9 +50,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT
         	id,
             user_id,
+            file_id,
             created_at,
             updated_at,
-            source,
             title,
             content
         FROM chat
@@ -50,18 +65,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INSERT INTO chat
         (
             user_id,
+            file_id,
             created_at,
             updated_at,
-            source,
             title,
             content
         )
         VALUES
         (
             #{userId},
+            #{fileId},
             NOW(),
             NOW(),
-            #{source},
             #{title},
             #{content}
         )
@@ -73,10 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         UPDATE chat
         SET
-            user_id = #{dto.userId},
-            created_at = #{dto.createdAt},
             updated_at = now(),
-            source = #{dto.source},
             title = #{dto.title},
             content = #{dto.content}
         WHERE id = #{id}

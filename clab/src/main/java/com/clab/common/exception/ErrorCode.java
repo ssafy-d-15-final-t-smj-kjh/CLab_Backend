@@ -34,7 +34,11 @@ public enum ErrorCode implements BaseCode {
 	// Common Error --- END
 	
 	// Content Error --- BEGIN
-	
+	CONTENT_NOT_FOUND(404, "CONT-001", "대화 내용을 조회할 수 없습니다."),
+	CONTENT_BAD_REQUEST(400, "CONT-002", "잘못된 접근입니다. 대화 내용 DB에 적용이 되지 않았습니다."),
+	CONTENT_INSERT_FAILED(400, "CONT-003", "대화 내용 생성에 실패하였습니다."),
+	CONTENT_UPDATE_FAILED(400, "CONT-004", "대화 내용 수정에 실패하였습니다."),
+	CONTENT_DELETE_FAILED(400, "CONT-005", "대화 내용 삭제에 실패하였습니다."),
 	// Content Error --- END
 	
 	// Content-Category Error --- BEGIN

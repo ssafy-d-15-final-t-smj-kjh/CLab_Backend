@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.clab.chat.dao.ChatMapper;
 import com.clab.chat.dto.ChatDto;
@@ -36,7 +37,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public int insert(ChatDto dto) {
+	public int insert(ChatDto dto, MultipartFile file) {
 		int result = chatMapper.insert(dto);
 		if(result == 0) {
 			throw new CustomException(ErrorCode.CHAT_BAD_REQUEST);
@@ -46,22 +47,18 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public int update(int id, ChatDto dto) {
+	public void update(int id, ChatDto dto) {
 		int result = chatMapper.update(id, dto);
 		if(result == 0) {
 			throw new CustomException(ErrorCode.CHAT_BAD_REQUEST);
-		} else {
-			return result;
 		}
 	}
 
 	@Override
-	public int delete(int id) {
+	public void delete(int id) {
 		int result = chatMapper.delete(id);
 		if(result == 0) {
 			throw new CustomException(ErrorCode.CHAT_BAD_REQUEST);
-		} else {
-			return result;
 		}
 	}
 	

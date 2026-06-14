@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service // Spring Bean으로 등록
@@ -28,7 +29,7 @@ public class ChatParserServiceImpl implements ChatParserService {
 
     private static final Pattern DATE_PATTERN =
             Pattern.compile("^-+\\s*(.+?)\\s*-+$");
-
+    
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy년 M월 d일 EEEE", Locale.KOREAN);
 
@@ -95,6 +96,15 @@ public class ChatParserServiceImpl implements ChatParserService {
         }
 
         return parsedMessages;
+    }
+    
+    // 참여자 이름 목록 (순서 유지, 중복 제거)
+    @Override
+    public List<String> extractParticipants(List<ParsedMessage> messages) {
+        return messages.stream()
+            .map(ParsedMessage::getSender)
+            .distinct()
+            .collect(Collectors.toList());
     }
 
     private LocalTime parseLocalTime(String amPm, String timeStr) {

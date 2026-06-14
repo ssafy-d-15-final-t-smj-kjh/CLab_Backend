@@ -55,7 +55,11 @@ public enum ErrorCode implements BaseCode {
 	// Auth Error --- END
 	
 	// Participant Error --- BEGIN
-	
+	PARTICIPANT_NOT_FOUND(404, "PART-001", "참여자를 조회할 수 없습니다."),
+	PARTICIPANT_BAD_REQUEST(400, "PART-002", "잘못된 접근입니다. 참여자 DB에 적용이 되지 않았습니다."),
+	PARTICIPANT_INSERT_FAILED(400, "PART-003", "참여자 생성에 실패하였습니다."),
+	PARTICIPANT_UPDATE_FAILED(400, "PART-004", "참여자 수정에 실패하였습니다."),
+	PARTICIPANT_DELETE_FAILED(400, "PART-005", "참여자 삭제에 실패하였습니다."),
 	// Participant Error --- END
 	
 	// Participant-Category Error --- BEGIN

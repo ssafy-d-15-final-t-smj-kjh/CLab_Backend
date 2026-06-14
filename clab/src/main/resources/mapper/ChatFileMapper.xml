@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clab.chatFile.dao.ChatFileMapper">
+
+    <resultMap id="chatFileMap" type="com.clab.chatFile.dto.ChatFileDto">
+        <id property="id" column="id"/>
+        <result property="originalFileName" column="original_file_name"/>
+        <result property="saveFileName" column="save_file_name"/>
+        <result property="source" column="source"/>
+        <result property="fileSize" column="file_size"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <!-- 단건 조회 -->
+    <select id="findById"
+            parameterType="int"
+            resultMap="chatFileMap">
+        SELECT
+        	id,
+            original_file_name,
+            save_file_name,
+            source,
+            file_size,
+            created_at
+        FROM chat_file
+        WHERE id = #{id}
+    </select>
+    
+    <!-- 등록 -->
+    <insert id="insert" 
+    parameterType="com.clab.chatFile.dto.ChatFileDto"
+    useGeneratedKeys="true"
+    keyProperty="id">
+
+        INSERT INTO chat_file
+        (
+            original_file_name,
+            save_file_name,
+            source,
+            file_size,
+            created_at
+        )
+        VALUES
+        (
+            #{originalFileName},
+            #{saveFileName},
+            #{source},
+            #{fileSize},
+            NOW()
+        )
+    </insert>
+
+    <!-- 삭제 -->
+    <delete id="delete" parameterType="int">
+
+        DELETE FROM chat_file
+        WHERE id = #{id}
+
+    </delete>
+
+</mapper>

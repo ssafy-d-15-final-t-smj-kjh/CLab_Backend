@@ -8,13 +8,16 @@ import com.clab.chat.dto.ChatDto;
 import com.clab.common.exception.ApiResponse;
 
 public interface ChatService {
+	
 	List<ChatDto> findAll();
+	
+	List<ChatDto> findAllByUserId(int userId);
+	
+	ChatDto findById(int userId, int id);
 
-	ChatDto findById(int id);
+	int insert(ChatDto dto, MultipartFile file, int userId);
 
-	int insert(ChatDto dto, MultipartFile file);
+	void update(int userId, int id, ChatDto dto);
 
-	void update(int id, ChatDto dto);
-
-	void delete(int id);
+	void delete(int userId, int id);
 }

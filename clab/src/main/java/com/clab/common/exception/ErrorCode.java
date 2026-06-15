@@ -17,9 +17,21 @@ public enum ErrorCode implements BaseCode {
 
 	
 	// Chat Error --- BEGIN
-	CHAT_NOT_FOUND(404, "CHAT-001", "대화를 조회할 수 없습니다."),
+	CHAT_NOT_FOUND(404, "CHAT-001", "대화가 존재하지 않습니다."),
 	CHAT_BAD_REQUEST(400, "CHAT-002", "잘못된 접근입니다. DB에 수정이 일어나지 않았습니다."),
 	// Chat Error --- END
+	
+	// ChatFile Error --- BEGIN
+	CHATFILE_DIRECTORY_ERROR(500,"CHATFILE-001", "디렉토리를 생성할 수 없습니다."),
+	CHATFILE_SAVED_ERROR(500,"CHATFILE-002", "파일을 저장할 수 없습니다."),
+	CHATFILE_BAD_REQUEST(400,"CHATFILE-003", "잘못된 접근입니다. DB에 수정이 일어나지 않았습니다."),
+	CHATFILE_DB_NOT_FOUND(404,"CHATFILE-004", "DB의 대화파일이 존재하지 없습니다."),
+	CHATFILE_NOT_FOUND(404,"CHATFILE-005", "대화파일이 존재하지 없습니다."),
+	CHATFILE_DELETE_FAILED(400,"CHATFILE-006", "대화파일 삭제에 실패하였습니다."),
+	
+	
+	// ChatFile Error --- END
+		
 	
 	// Category Error --- BEGIN
 	CATEGORY_NOT_FOUND(404, "CATE-001", "카테고리를 조회할 수 없습니다."),

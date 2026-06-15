@@ -97,6 +97,35 @@ public class ChatController {
 			@RequestPart("file") MultipartFile file) {
 		int userId = userDetails.getMember().getId();
 		int id = chatService.insert(dto,file,userId);
+		
+		List<ParsedMessage> messages = charParserService.parseChatLog(file);
+		List<String> participantNames = charParserService.extractParticipants(messages);
+		
+		for (String name : participantNames) {
+	      // 해당 참여자 메시지 필터링
+	      List<ParsedMessage> myMessages = messages.stream()
+	          .filter(m -> m.getSender().equals(name))
+	          .collect(Collectors.toList());
+	      
+	      ParticipantDto participantDto = new ParticipantDto();
+	      participantDto.setChatId(chatId);
+	      participantDto.setName(name);
+	      participantDto.setCount(myMessages.size());
+	      participantDto.setChatLength(
+	          (long) myMessages.stream()
+	              .mapToInt(m -> m.getContent().length())
+	              .sum()
+	      );
+	      participantService.insert(participantDto);
+	      
+	      int participantId = participantDto.getId();
+	      
+	      for(ParsedMessage m : myMessages) {
+	      	ContentDto c = new ContentDto(null, participantId, m.getContent(), m.getTime());
+	      	contentService.insert(c);
+	      }
+		}
+		
 		ApiResponse response = new ApiResponse(SuccessCode.INSERT_SUCCESS, Map.of("id", id));
 		return ResponseEntity
 				.status(response.getStatus())

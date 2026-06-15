@@ -63,13 +63,14 @@ public class ChatServiceImpl implements ChatService {
 		if(chatResult == 0) {
 			throw new CustomException(ErrorCode.CHAT_BAD_REQUEST);
 		} else {
-			return chatResult;
+			int id = dto.getId();
+			return id;
 		}
 	}
 
 	@Override
 	@Transactional
-	public int update(int userId, int id, ChatDto dto) {
+	public void update(int userId, int id, ChatDto dto) {
 		ChatDto chat = chatMapper.findById(id);	
 		if(chat == null) {
 			throw new CustomException(ErrorCode.CHAT_NOT_FOUND);
@@ -77,18 +78,16 @@ public class ChatServiceImpl implements ChatService {
 		if(userId != chat.getUserId()) {
 			throw new CustomException(ErrorCode.FORBIDDEN);
 		}
-		
+
 		int result = chatMapper.update(id, dto);
 		if(result == 0) {
 			throw new CustomException(ErrorCode.CHAT_BAD_REQUEST);
-		} else {
-			return result;
 		}
 	}
 
 	@Override
 	@Transactional
-	public int delete(int userId, int id) {
+	public void delete(int userId, int id) {
 		ChatDto chat = chatMapper.findById(id);	
 		if(chat == null) {
 			throw new CustomException(ErrorCode.CHAT_NOT_FOUND);
@@ -100,8 +99,11 @@ public class ChatServiceImpl implements ChatService {
 		int result = chatFileService.delete(chat.getFileId());
 		if(result == 0) {
 			throw new CustomException(ErrorCode.CHAT_BAD_REQUEST);
-		} else {
-			return result;
+		}
+		
+		int chatResult = chatMapper.delete(id);
+		if(chatResult == 0) {
+			throw new CustomException(ErrorCode.CHAT_BAD_REQUEST);
 		}
 	}
 }

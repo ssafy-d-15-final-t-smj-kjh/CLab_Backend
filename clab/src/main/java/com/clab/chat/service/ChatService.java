@@ -17,7 +17,7 @@ public interface ChatService {
 
 	int insert(ChatDto dto, MultipartFile file, int userId);
 
-	int update(int userId, int id, ChatDto dto);
+	void update(int userId, int id, ChatDto dto);
 
-	int delete(int userId, int id);
+	void delete(int userId, int id);
 }

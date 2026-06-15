@@ -1,7 +1,10 @@
 package com.clab.chat.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,8 +20,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.clab.chat.dto.ChatDto;
 import com.clab.chat.service.ChatService;
+import com.clab.chat_file.dto.ParsedMessage;
+import com.clab.chat_file.service.ChatParserService;
 import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
+import com.clab.content.dto.ContentDto;
+import com.clab.content.service.ContentService;
+import com.clab.participant.dto.ParticipantDto;
+import com.clab.participant.service.ParticipantService;
+
+import io.jsonwebtoken.io.IOException;
 import com.clab.common.security.CustomUserDetails;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,6 +47,9 @@ import lombok.RequiredArgsConstructor;
 public class ChatController {
 	
 	private final ChatService chatService;
+	private final ChatParserService charParserService;
+	private final ParticipantService participantService;
+	private final ContentService contentService;
 	
 	@GetMapping
 	@Operation(summary = "전체 채팅 목록 조회", description = "admin이 추가 되면 사용함")
@@ -69,7 +83,7 @@ public class ChatController {
 				.status(response.getStatus())
 				.body(response);
 	}
-	
+
 	@PostMapping(consumes = "multipart/form-data")
 	@Operation(summary = "채팅 생성", description = "분석할 파일 + 제목 + 내용 업로드하면 채팅 생성됨")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "multipart/form-data",
@@ -82,8 +96,37 @@ public class ChatController {
 			@Parameter(description = "업로드할 파일", schema = @Schema(type = "string", format = "binary"))
 			@RequestPart("file") MultipartFile file) {
 		int userId = userDetails.getMember().getId();
-		int rows = chatService.insert(dto,file,userId);
-		ApiResponse response = new ApiResponse(SuccessCode.INSERT_SUCCESS, String.format("추가된 행 수 : %d", rows));
+		int id = chatService.insert(dto,file,userId);
+		
+		List<ParsedMessage> messages = charParserService.parseChatLog(file);
+		List<String> participantNames = charParserService.extractParticipants(messages);
+		
+		for (String name : participantNames) {
+	      // 해당 참여자 메시지 필터링
+	      List<ParsedMessage> myMessages = messages.stream()
+	          .filter(m -> m.getSender().equals(name))
+	          .collect(Collectors.toList());
+	      
+	      ParticipantDto participantDto = new ParticipantDto();
+	      participantDto.setChatId(chatId);
+	      participantDto.setName(name);
+	      participantDto.setCount(myMessages.size());
+	      participantDto.setChatLength(
+	          (long) myMessages.stream()
+	              .mapToInt(m -> m.getContent().length())
+	              .sum()
+	      );
+	      participantService.insert(participantDto);
+	      
+	      int participantId = participantDto.getId();
+	      
+	      for(ParsedMessage m : myMessages) {
+	      	ContentDto c = new ContentDto(null, participantId, m.getContent(), m.getTime());
+	      	contentService.insert(c);
+	      }
+		}
+		
+		ApiResponse response = new ApiResponse(SuccessCode.INSERT_SUCCESS, Map.of("id", id));
 		return ResponseEntity
 				.status(response.getStatus())
 				.body(response);
@@ -94,8 +137,8 @@ public class ChatController {
 	public ResponseEntity<ApiResponse> update(@AuthenticationPrincipal CustomUserDetails userDetails,
 			@PathVariable("id") int id, @RequestBody ChatDto dto) {
 		int userId = userDetails.getMember().getId();
-		int rows = chatService.update(userId, id, dto);
-		ApiResponse response = new ApiResponse(SuccessCode.UPDATE_SUCCESS, String.format("변경된 행 수 : %d", rows));
+		chatService.update(userId, id, dto);
+		ApiResponse response = new ApiResponse(SuccessCode.UPDATE_SUCCESS, null);
 		return ResponseEntity
 				.status(response.getStatus())
 				.body(response);
@@ -106,8 +149,8 @@ public class ChatController {
 	public ResponseEntity<ApiResponse> delete(@AuthenticationPrincipal CustomUserDetails userDetails,
 			@PathVariable("id") int id) {
 		int userId = userDetails.getMember().getId();
-		int rows = chatService.delete(userId, id);
-		ApiResponse response = new ApiResponse(SuccessCode.DELETE_SUCCESS, String.format("삭제된 행 수 : %d", rows));
+		chatService.delete(userId, id);
+		ApiResponse response = new ApiResponse(SuccessCode.DELETE_SUCCESS, null);
 		return ResponseEntity
 				.status(response.getStatus())
 				.body(response);

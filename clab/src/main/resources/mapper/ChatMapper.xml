@@ -60,7 +60,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!-- 등록 -->
-    <insert id="insert" parameterType="com.clab.chat.dto.ChatDto">
+    <insert id="insert"
+    parameterType="com.clab.chat.dto.ChatDto"
+    useGeneratedKeys="true"
+    keyProperty="id">
 
         INSERT INTO chat
         (

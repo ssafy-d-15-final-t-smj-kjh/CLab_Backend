@@ -21,11 +21,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public List<MemberDto> findAll() {
-		List<MemberDto> members = mapper.findAll();
-		if (members.isEmpty()) {
-			throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
-		}
-		return members;
+		return mapper.findAll();
 	}
 
 	@Override

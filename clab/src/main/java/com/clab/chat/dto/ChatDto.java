@@ -22,9 +22,9 @@ import lombok.Getter;
 public class ChatDto {
 	private Integer id;
 	private Integer userId;
+	private Integer fileId;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	private String source;
 	private String title;
 	private String content;
 }

@@ -108,7 +108,7 @@ public class ChatController {
 	          .collect(Collectors.toList());
 	      
 	      ParticipantDto participantDto = new ParticipantDto();
-	      participantDto.setChatId(chatId);
+	      participantDto.setChatId(id);
 	      participantDto.setName(name);
 	      participantDto.setCount(myMessages.size());
 	      participantDto.setChatLength(

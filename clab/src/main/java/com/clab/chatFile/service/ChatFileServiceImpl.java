@@ -85,7 +85,7 @@ public class ChatFileServiceImpl implements ChatFileService {
 			throw new CustomException(ErrorCode.CHATFILE_NOT_FOUND);
 		}
 		catch(IOException e) {
-			throw new CustomException(ErrorCode.CHATFILE_SAVED_ERROR);
+			throw new CustomException(ErrorCode.CHATFILE_DELETE_FAILED);
 		}
 		return mapper.delete(id);
 	}

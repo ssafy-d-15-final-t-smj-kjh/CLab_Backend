@@ -26,7 +26,8 @@ public enum ErrorCode implements BaseCode {
 	CHATFILE_SAVED_ERROR(500,"CHATFILE-002", "파일을 저장할 수 없습니다."),
 	CHATFILE_BAD_REQUEST(400,"CHATFILE-003", "잘못된 접근입니다. DB에 수정이 일어나지 않았습니다."),
 	CHATFILE_DB_NOT_FOUND(404,"CHATFILE-004", "DB의 대화파일이 존재하지 없습니다."),
-	CHATFILE_NOT_FOUND(404,"CHATFILE-004", "대화파일이 존재하지 없습니다."),
+	CHATFILE_NOT_FOUND(404,"CHATFILE-005", "대화파일이 존재하지 없습니다."),
+	CHATFILE_DELETE_FAILED(400,"CHATFILE-006", "대화파일 삭제에 실패하였습니다."),
 	
 	
 	// ChatFile Error --- END

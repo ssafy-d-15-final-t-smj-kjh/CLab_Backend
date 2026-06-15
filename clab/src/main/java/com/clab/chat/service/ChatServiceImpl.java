@@ -23,20 +23,12 @@ public class ChatServiceImpl implements ChatService {
 	
 	@Override
 	public List<ChatDto> findAll() {
-		List<ChatDto> chats = chatMapper.findAll();
-		if(chats.isEmpty()) {
-			throw new CustomException(ErrorCode.CHAT_NOT_FOUND);
-		}
-		return chats;
+		return chatMapper.findAll();
 	}
 
 	@Override
 	public List<ChatDto> findAllByUserId(int userId) {
-		List<ChatDto> chats = chatMapper.findAllByUserId(userId);
-		if(chats.isEmpty()) {
-			throw new CustomException(ErrorCode.CHAT_NOT_FOUND);
-		}
-		return chats;
+		return chatMapper.findAllByUserId(userId);
 	}
 
 	@Override
